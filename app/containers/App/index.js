@@ -15,7 +15,7 @@ import HomePage from 'containers/HomePage/Loadable';
 import Echolink from 'containers/Echolink/Loadable';
 import FeaturePage from 'containers/FeaturePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
-import Header from 'components/Header';
+import Header from 'containers/Header/index';
 import Footer from 'components/Footer';
 
 const AppWrapper = styled.div`
