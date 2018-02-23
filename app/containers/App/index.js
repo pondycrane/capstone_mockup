@@ -41,7 +41,6 @@ export default function App() {
         <Route path="/echolink" component={Echolink} />
         <Route path="" component={NotFoundPage} />
       </Switch>
-      <Footer />
     </AppWrapper>
   );
 }
