@@ -41,7 +41,7 @@ export class Header extends React.PureComponent {
 
     return (
       <MuiThemeProvider theme={theme}>
-      <div className={classes.root}>
+      <div className={{ flexGrow: 1 }}>
         <AppBar position="static">
           <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
             <MenuIcon />
