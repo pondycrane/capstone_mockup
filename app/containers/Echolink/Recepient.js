@@ -17,7 +17,7 @@ const credentials = [
   { issuer: 'Carnegie Mellon University', recepient: 'Hank Huang', label: 'Master of Information Systems', type: 'Degree', url: 'https://avatars3.githubusercontent.com/u/8454258?s=460&v=4'},
   { issuer: 'Google', recepient: 'Hank Huang', label: 'Software Engineer', type: 'Title', url: 'https://avatars3.githubusercontent.com/u/8454258?s=460&v=4'},
   { issuer: 'Apple', recepient: 'Anurag', label: 'Software Engineer', type: 'Title', url: 'https://avatars3.githubusercontent.com/u/8454258?s=460&v=4' },
-  { issuer: 'Carnegie Mellon University', recepient: 'Subhadeep', label: 'Phd of Bioinformatics', type: 'Degree', url: 'https://avatars3.githubusercontent.com/u/8454258?s=460&v=4' },
+  { issuer: 'Carnegie Mellon University', recepient: 'Subhadeep', label: 'Phd of Biotechnology', type: 'Degree', url: 'https://avatars3.githubusercontent.com/u/8454258?s=460&v=4' },
 ];
 
 const suggestions = credentials.map(suggestion => ({
