@@ -1,9 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
-import { AppBar, Toolbar, IconButton, Typography } from 'material-ui';
+import { withStyles } from 'material-ui/styles';
+import AppBar from 'material-ui/AppBar';
+import Toolbar from 'material-ui/Toolbar';
+import Typography from 'material-ui/Typography';
+import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui-icons/Menu';
-import { AccountCircle } from 'material-ui-icons';
+import AccountCircle from 'material-ui-icons/AccountCircle';
 import Menu, { MenuItem } from 'material-ui/Menu';
 
 const styles = {
@@ -19,10 +22,9 @@ const styles = {
   },
 };
 
-const theme = createMuiTheme();
-
-export class Header extends React.PureComponent {
+class MenuAppBar extends React.PureComponent {
   state = {
+    auth: true,
     anchorEl: null,
   };
 
@@ -36,57 +38,57 @@ export class Header extends React.PureComponent {
 
   render() {
     const { classes } = this.props;
-    const { anchorEl } = this.state;
+    const { auth, anchorEl } = this.state;
     const open = Boolean(anchorEl);
 
     return (
-      <MuiThemeProvider theme={theme}>
-      <div className={{ flexGrow: 1 }}>
+      <div className={classes.root}>
         <AppBar position="static">
-          <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="title" color="inherit" className={classes.flex}>
-            Echolink
-          </Typography>
           <Toolbar>
-            <div>
-              <IconButton
-                aria-owns={open ? 'menu-appbar' : null}
-                aria-haspopup="true"
-                onClick={this.handleMenu}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={open}
-                onClose={this.handleClose}
-              >
-                <MenuItem onClick={this.handleClose}>CMU</MenuItem>
-                <MenuItem onClick={this.handleClose}>John Smith</MenuItem>
-              </Menu>
-            </div>
+            <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="title" color="inherit" className={classes.flex}>
+              Echolink
+            </Typography>
+            {auth && (
+              <div>
+                <IconButton
+                  aria-owns={open ? 'menu-appbar' : null}
+                  aria-haspopup="true"
+                  onClick={this.handleMenu}
+                  color="inherit"
+                >
+                  <AccountCircle />
+                </IconButton>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  open={open}
+                  onClose={this.handleClose}
+                >
+                  <MenuItem onClick={this.handleClose}>Profile</MenuItem>
+                  <MenuItem onClick={this.handleClose}>My account</MenuItem>
+                </Menu>
+              </div>
+            )}
           </Toolbar>
         </AppBar>
       </div>
-      </MuiThemeProvider>
     );
   }
 }
 
-Header.propTypes = {
+MenuAppBar.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Header);
+export default withStyles(styles)(MenuAppBar);
