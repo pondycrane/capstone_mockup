@@ -8,6 +8,13 @@ import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui-icons/Menu';
 import AccountCircle from 'material-ui-icons/AccountCircle';
 import Menu, { MenuItem } from 'material-ui/Menu';
+import { createStructuredSelector } from 'reselect';
+import { makeSelectUsername } from './selectors';
+import injectReducer from 'utils/injectReducer';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import reducer from './reducer';
+import { changeUser } from './actions';
 
 const styles = {
   root: {
@@ -22,6 +29,11 @@ const styles = {
   },
 };
 
+const users = [
+    "Carnegie Mellon University",
+    "Subhadeep",
+]
+
 class MenuAppBar extends React.PureComponent {
   state = {
     auth: true,
@@ -32,8 +44,9 @@ class MenuAppBar extends React.PureComponent {
     this.setState({ anchorEl: event.currentTarget });
   };
 
-  handleClose = () => {
+  handleClose = (user) => {
     this.setState({ anchorEl: null });
+    this.props.onChangeUser(user);
   };
 
   render() {
@@ -50,6 +63,9 @@ class MenuAppBar extends React.PureComponent {
             </IconButton>
             <Typography variant="title" color="inherit" className={classes.flex}>
               Echolink
+            </Typography>
+            <Typography variant="title" color="inherit" className={classes.flex}>
+              { this.props.username }
             </Typography>
             {auth && (
               <div>
@@ -75,8 +91,11 @@ class MenuAppBar extends React.PureComponent {
                   open={open}
                   onClose={this.handleClose}
                 >
-                  <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-                  <MenuItem onClick={this.handleClose}>My account</MenuItem>
+                {
+                    users.map((user, ind) =>
+                        <MenuItem key={ind} onClick={this.handleClose.bind(this, user)} value={user}>{user}</MenuItem>
+                    )
+                }
                 </Menu>
               </div>
             )}
@@ -89,6 +108,27 @@ class MenuAppBar extends React.PureComponent {
 
 MenuAppBar.propTypes = {
   classes: PropTypes.object.isRequired,
+  username: PropTypes.string,
+  onChangeUser: PropTypes.func,
 };
 
-export default withStyles(styles)(MenuAppBar);
+export function mapDispatchToProps(dispatch) {
+  return {
+      onChangeUser: (user) => dispatch(changeUser(user)),
+  };
+}
+
+const mapStateToProps = createStructuredSelector({
+  username: makeSelectUsername(),
+});
+
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
+
+const withStylesComp = withStyles(styles);
+const withReducer = injectReducer({ key: 'header', reducer });
+
+export default compose(
+    withStylesComp,
+    withReducer,
+    withConnect,
+)(MenuAppBar);
