@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import injectReducer from 'utils/injectReducer';
 import { withStyles } from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
@@ -9,10 +10,9 @@ import MenuIcon from 'material-ui-icons/Menu';
 import AccountCircle from 'material-ui-icons/AccountCircle';
 import Menu, { MenuItem } from 'material-ui/Menu';
 import { createStructuredSelector } from 'reselect';
-import { makeSelectUsername } from './selectors';
-import injectReducer from 'utils/injectReducer';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { makeSelectUsername } from './selectors';
 import reducer from './reducer';
 import { changeUser } from './actions';
 
@@ -30,9 +30,9 @@ const styles = {
 };
 
 const users = [
-    "Carnegie Mellon University",
-    "Subhadeep",
-]
+  'Carnegie Mellon University',
+  'Subhadeep',
+];
 
 class MenuAppBar extends React.PureComponent {
   state = {
@@ -40,11 +40,11 @@ class MenuAppBar extends React.PureComponent {
     anchorEl: null,
   };
 
-  handleMenu = event => {
+  handleMenu = (event) => {
     this.setState({ anchorEl: event.currentTarget });
   };
 
-  handleClose = (user) => {
+  handleClose = (evt, user) => {
     this.setState({ anchorEl: null });
     this.props.onChangeUser(user);
   };
@@ -91,11 +91,11 @@ class MenuAppBar extends React.PureComponent {
                   open={open}
                   onClose={this.handleClose}
                 >
-                {
-                    users.map((user, ind) =>
-                        <MenuItem key={ind} onClick={this.handleClose.bind(this, user)} value={user}>{user}</MenuItem>
+                  {
+                    users.map((user) =>
+                      <MenuItem key={user} onClick={(event) => this.handleClose(event, user)} value={user}>{user}</MenuItem>
                     )
-                }
+                  }
                 </Menu>
               </div>
             )}
@@ -114,7 +114,7 @@ MenuAppBar.propTypes = {
 
 export function mapDispatchToProps(dispatch) {
   return {
-      onChangeUser: (user) => dispatch(changeUser(user)),
+    onChangeUser: (user) => dispatch(changeUser(user)),
   };
 }
 
@@ -128,7 +128,7 @@ const withStylesComp = withStyles(styles);
 const withReducer = injectReducer({ key: 'header', reducer });
 
 export default compose(
-    withStylesComp,
-    withReducer,
-    withConnect,
+  withStylesComp,
+  withReducer,
+  withConnect,
 )(MenuAppBar);
