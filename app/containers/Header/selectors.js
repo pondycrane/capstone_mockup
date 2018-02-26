@@ -11,6 +11,11 @@ const makeSelectUsername = () => createSelector(
   (headerState) => headerState.get('user').username
 );
 
+const makeSelectRole = () => createSelector(
+  selectHeader,
+  (headerState) => headerState.get('user').role
+);
+
 const makeSelectUser = () => createSelector(
   selectHeader,
   (headerState) => headerState.get('user')
@@ -20,4 +25,5 @@ export {
   selectHeader,
   makeSelectUsername,
   makeSelectUser,
+  makeSelectRole,
 };

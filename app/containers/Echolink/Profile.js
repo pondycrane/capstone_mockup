@@ -21,7 +21,7 @@ const styles = {
 
 export class Profile extends React.PureComponent {
   render() {
-    const credentials = !this.props.user.credentials ? [] :
+    const credentials =
       this.props.user.credentials.map((credential) => (
         <Typography
           align="center"
@@ -69,6 +69,6 @@ const withStylesComp = withStyles(styles);
 const withConnect = connect(mapStateToProps);
 
 export default compose(
-  withStylesComp,
   withConnect,
+  withStylesComp,
 )(Profile);

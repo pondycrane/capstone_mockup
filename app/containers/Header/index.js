@@ -12,7 +12,7 @@ import Menu, { MenuItem } from 'material-ui/Menu';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { makeSelectUsername } from './selectors';
+import { makeSelectRole } from './selectors';
 import reducer from './reducer';
 import { changeUser } from './actions';
 
@@ -32,6 +32,7 @@ const styles = {
 const users = [
   {
     username: 'Subhadeep',
+    role: 'Recepient',
     credentials: [
       {
         type: 'degree',
@@ -49,6 +50,7 @@ const users = [
   },
   {
     username: 'Carnegie Mellon University',
+    role: 'Issuer',
     credentials: [
       {
         type: 'institution',
@@ -63,6 +65,10 @@ class MenuAppBar extends React.PureComponent {
     auth: true,
     anchorEl: null,
   };
+
+  componentDidMount() {
+    this.props.onChangeUser(users[0]);
+  }
 
   handleMenu = (event) => {
     this.setState({ anchorEl: event.currentTarget });
@@ -89,7 +95,7 @@ class MenuAppBar extends React.PureComponent {
               Echolink
             </Typography>
             <Typography variant="title" color="inherit" className={classes.flex}>
-              { this.props.username }
+              { this.props.role }
             </Typography>
             {auth && (
               <div>
@@ -132,7 +138,7 @@ class MenuAppBar extends React.PureComponent {
 
 MenuAppBar.propTypes = {
   classes: PropTypes.object.isRequired,
-  username: PropTypes.string,
+  role: PropTypes.string,
   onChangeUser: PropTypes.func,
 };
 
@@ -143,7 +149,7 @@ export function mapDispatchToProps(dispatch) {
 }
 
 const mapStateToProps = createStructuredSelector({
-  username: makeSelectUsername(),
+  role: makeSelectRole(),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
@@ -152,7 +158,7 @@ const withStylesComp = withStyles(styles);
 const withReducer = injectReducer({ key: 'header', reducer });
 
 export default compose(
-  withStylesComp,
   withReducer,
   withConnect,
+  withStylesComp,
 )(MenuAppBar);

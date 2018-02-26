@@ -17,8 +17,14 @@ import {
 // The initial state of the App
 const initialState = fromJS({
   user: {
-    username: 'Hank Huang',
-    credentials: [],
+    username: 'Carnegie Mellon University',
+    role: 'Issuer',
+    credentials: [
+      {
+        type: 'institution',
+        status: 'Education Organization',
+      },
+    ],
   },
 });
 
