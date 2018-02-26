@@ -74,8 +74,12 @@ class MenuAppBar extends React.PureComponent {
     this.setState({ anchorEl: event.currentTarget });
   };
 
-  handleClose = (evt, user) => {
+  handleClose = () => {
     this.setState({ anchorEl: null });
+  };
+
+  handleSelect = (evt, user) => {
+    this.handleClose();
     this.props.onChangeUser(user);
   };
 
@@ -123,7 +127,7 @@ class MenuAppBar extends React.PureComponent {
                 >
                   {
                     users.map((user) =>
-                      <MenuItem key={user.username} onClick={(event) => this.handleClose(event, user)}>{user.username}</MenuItem>
+                      <MenuItem key={user.username} onClick={(event) => this.handleSelect(event, user)}>{user.username}</MenuItem>
                     )
                   }
                 </Menu>
