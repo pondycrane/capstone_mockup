@@ -6,42 +6,69 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Typography, Divider } from 'material-ui';
 import DeleteIcon from 'material-ui-icons/Delete';
+import { withStyles } from 'material-ui/styles';
+import { createStructuredSelector } from 'reselect';
+import { makeSelectUser } from 'containers/Header/selectors';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+
+const styles = {
+  root: {
+    marginTop: 20,
+    marginBottom: 20,
+  },
+};
 
 export class Profile extends React.PureComponent {
   render() {
-    const data = {
-      name: "Hank Huang",
-      degree: "Master of Information Systems",
-      school: "Carnegie Mellon University",
-      title: "Software Engineer",
-    }
+    const credentials =
+      this.props.user.credentials.map((credential) => (
+        <Typography
+          align="center"
+          variant="subheading"
+          key={`${credential.type}|${credential.status}`}
+        >
+          {`${credential.type} : ${credential.status}`}
+          <DeleteIcon />
+        </Typography>
+      )
+    );
+    const { classes } = this.props;
     return (
-      <div>
+      <div className={classes.root}>
         <Typography
           align="center"
           variant="headline"
         >
-        { data.name }
-        <DeleteIcon />
+          { this.props.user.username }
         </Typography>
         <Typography
           align="center"
           variant="subheading"
         >
-        { data.title }
-        <DeleteIcon />
         </Typography>
-        <Typography
-          align="center"
-          variant="caption"
-        >
-        { data.school + " - " + data.degree }
-        <DeleteIcon />
-        </Typography>
+        {credentials}
+        <br />
         <Divider />
       </div>
     );
   }
 }
 
-export default Profile;
+Profile.propTypes = {
+  classes: PropTypes.object.isRequired,
+  user: PropTypes.object,
+};
+
+const mapStateToProps = createStructuredSelector({
+  user: makeSelectUser(),
+});
+
+const withStylesComp = withStyles(styles);
+
+const withConnect = connect(mapStateToProps);
+
+export default compose(
+  withConnect,
+  withStylesComp,
+)(Profile);

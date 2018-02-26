@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
 import Input from 'material-ui/Input';
-import { MenuItem } from 'material-ui/Menu';
 import ArrowDropDownIcon from 'material-ui-icons/ArrowDropDown';
 import CancelIcon from 'material-ui-icons/Cancel';
 import ArrowDropUpIcon from 'material-ui-icons/ArrowDropUp';
@@ -12,58 +11,32 @@ import Chip from 'material-ui/Chip';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 import Credential from 'components/Credential';
+import Option from './Option';
 
 const credentials = [
-  { issuer: 'Carnegie Mellon University', recepient: 'Hank Huang', label: 'Master of Information Systems', type: 'Degree', url: 'https://avatars3.githubusercontent.com/u/8454258?s=460&v=4'},
-  { issuer: 'Google', recepient: 'Hank Huang', label: 'Software Engineer', type: 'Title', url: 'https://avatars3.githubusercontent.com/u/8454258?s=460&v=4'},
+  { issuer: 'Carnegie Mellon University', recepient: 'Hank Huang', label: 'Master of Information Systems', type: 'Degree', url: 'https://avatars3.githubusercontent.com/u/8454258?s=460&v=4' },
+  { issuer: 'Google', recepient: 'Hank Huang', label: 'Software Engineer', type: 'Title', url: 'https://avatars3.githubusercontent.com/u/8454258?s=460&v=4' },
   { issuer: 'Apple', recepient: 'Anurag', label: 'Software Engineer', type: 'Title', url: 'https://avatars3.githubusercontent.com/u/8454258?s=460&v=4' },
   { issuer: 'Carnegie Mellon University', recepient: 'Subhadeep', label: 'Phd of Biotechnology', type: 'Degree', url: 'https://avatars3.githubusercontent.com/u/8454258?s=460&v=4' },
 ];
 
-const suggestions = credentials.map(suggestion => ({
+const suggestions = credentials.map((suggestion) => ({
   value: suggestion,
-  label: suggestion.type + ' : ' + suggestion.label,
+  label: `${suggestion.type} : ${suggestion.label}`,
 }));
 
-class Option extends React.Component {
-  handleClick = event => {
-    this.props.onSelect(this.props.option, event);
-  };
-
-  render() {
-    const { children, isFocused, isSelected, onFocus } = this.props;
-
-    return (
-      <MenuItem
-        onFocus={onFocus}
-        selected={isFocused}
-        onClick={this.handleClick}
-        component="div"
-        style={{
-          fontWeight: isSelected ? 500 : 400,
-        }}
-      >
-        {children}
-      </MenuItem>
-    );
-  }
-}
-
 function SelectWrapped(props) {
-  const { classes, ...other } = props;
-
+  const { ...other } = props;
   return (
     <Select
       optionComponent={Option}
       noResultsText={<Typography>{'No results found'}</Typography>}
-      arrowRenderer={arrowProps => {
-        return arrowProps.isOpen ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />;
-      }}
+      arrowRenderer={(arrowProps) => (arrowProps.isOpen ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />)}
       clearRenderer={() => <ClearIcon />}
-      valueComponent={valueProps => {
+      valueComponent={(valueProps) => {
         const { value, children, onRemove } = valueProps;
 
-        const onDelete = event => {
+        const onDelete = (event) => {
           event.preventDefault();
           event.stopPropagation();
           onRemove(value);
@@ -74,13 +47,11 @@ function SelectWrapped(props) {
             <Chip
               tabIndex={-1}
               label={children}
-              className={classes.chip}
               deleteIcon={<CancelIcon onTouchEnd={onDelete} />}
               onDelete={onDelete}
             />
           );
         }
-
         return <div className="Select-value">{children}</div>;
       }}
       {...other}
@@ -90,7 +61,7 @@ function SelectWrapped(props) {
 
 const ITEM_HEIGHT = 48;
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     flexGrow: 1,
     height: 200,
@@ -206,14 +177,14 @@ class IntegrationReactSelect extends React.Component {
     result: [],
   };
 
-  handleChangeSingle = single => {
+  handleChangeSingle = (single) => {
     this.setState({
       single,
-      result: credentials.filter(data => data.type == single.type && data.label == single.label),
+      result: credentials.filter((data) => data.type === single.type && data.label === single.label),
     });
   };
 
-  handleChangeMulti = multi => {
+  handleChangeMulti = (multi) => {
     this.setState({
       multi,
     });
@@ -221,13 +192,12 @@ class IntegrationReactSelect extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { single, multi, result } = this.state;
-    console.log(result);
+    const { single, result } = this.state;
 
     return (
       <div className={classes.root}>
         {
-          result.map((hit, hid) => <Credential key={ hid } recepient={ hit.recepient } issuer={ hit.issuer } url={ hit.url } type={ hit.type } title={ hit.label } />)
+            result.map((hit) => <Credential key={`${hit.label}${hit.recepient}${hit.issuer}${hit.type}`} recepient={hit.recepient} issuer={hit.issuer} url={hit.url} type={hit.type} title={hit.label} />)
         }
         <Input
           fullWidth
@@ -244,7 +214,7 @@ class IntegrationReactSelect extends React.Component {
             options: suggestions,
           }}
         />
-     </div>
+      </div>
     );
   }
 }
