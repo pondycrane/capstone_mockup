@@ -30,8 +30,32 @@ const styles = {
 };
 
 const users = [
-  'Carnegie Mellon University',
-  'Subhadeep',
+  {
+    username: 'Subhadeep',
+    credentials: [
+      {
+        type: 'degree',
+        status: 'Master of Information Systems',
+      },
+      {
+        type: 'school',
+        status: 'Carnegie Mellon University',
+      },
+      {
+        type: 'title',
+        status: 'Software Engineer',
+      },
+    ],
+  },
+  {
+    username: 'Carnegie Mellon University',
+    credentials: [
+      {
+        type: 'institution',
+        status: 'Education Organization',
+      },
+    ],
+  },
 ];
 
 class MenuAppBar extends React.PureComponent {
@@ -93,7 +117,7 @@ class MenuAppBar extends React.PureComponent {
                 >
                   {
                     users.map((user) =>
-                      <MenuItem key={user} onClick={(event) => this.handleClose(event, user)} value={user}>{user}</MenuItem>
+                      <MenuItem key={user.username} onClick={(event) => this.handleClose(event, user)}>{user.username}</MenuItem>
                     )
                   }
                 </Menu>

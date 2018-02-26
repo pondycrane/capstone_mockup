@@ -16,7 +16,10 @@ import {
 
 // The initial state of the App
 const initialState = fromJS({
-  username: 'Hank Huang',
+  user: {
+    username: 'Hank Huang',
+    credentials: [],
+  },
 });
 
 function headerReducer(state = initialState, action) {
@@ -25,7 +28,7 @@ function headerReducer(state = initialState, action) {
 
       // Delete prefixed '@' from the github username
       return state
-        .set('username', action.name);
+        .set('user', action.user);
     default:
       return state;
   }

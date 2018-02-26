@@ -26,9 +26,9 @@ import {
  *
  * @return {object}    An action object with a type of CHANGE_USERNAME
  */
-export function changeUser(name) {
+export function changeUser(user) {
   return {
     type: CHANGE_USER,
-    name,
+    user,
   };
 }
